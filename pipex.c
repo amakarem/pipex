@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/15 21:02:17 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/15 23:21:14 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,32 +89,63 @@
 // 	return (0);
 // }
 
+void	exec(char *cmd, char **env)
+{
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(env[0], 2);
+}
 
+int	open_file(char *filename, int output)
+{
+	if (output == 0)
+		return (open(filename, O_RDONLY, 0777));
+	else if (output == 1)
+		return (open(filename, O_WRONLY | O_CREAT, 0644));
+	return (-1);
+}
 
+void	child(char **argv, int *pipefd, char **env)
+{
+	int		fd;
+
+	fd = open_file(argv[2], 0);
+	if (fd == -1)
+		return ;
+	dup2(fd, 0);
+	dup2(pipefd[1], 1);
+	close(pipefd[0]);
+	exec(argv[2], env);
+}
+
+void	parent(char **argv, int *pipefd, char **env)
+{
+	int		fd;
+
+	fd = open_file(argv[4], 1);
+	if (fd == -1)
+		return ;
+	dup2(fd, STDOUT_FILENO);
+	dup2(pipefd[0], 0);
+	close(pipefd[1]);
+	exec(argv[3], env);
+}
 
 
 int	main(int argc, char **argv, char **envp)
 {
-	//int		fd[2];
-	//pid_t	pid;
+	int		pipefd[2];
+	pid_t	pid;
 
 	if (argc != 5)
 		return (exit_f(1));
-
-    char *args[] = {"/bin/ls", argv[3], NULL};  // Arguments to the 'ls' command
-
-    // Call execve() to run 'ls -l'
-    if (execve("/bin/ls", args, envp) == -1) {
-        perror("execve");  // Print error if execve fails
-        return 1;
-    }
-
-
-	// if (execve("/bin/ls", "-l", argv) == -1)
-	// {
-    //     perror("execve");  // Print error if execve fails
-    //     return 1;
-    // }
+	if (pipe(pipefd) == -1)
+		return (-1);
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (!pid)
+		child(argv, pipefd, envp);
+	parent(argv, pipefd, envp);
 
     return (0);
 }
