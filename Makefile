@@ -6,12 +6,12 @@
 #    By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/17 23:01:14 by aelaaser          #+#    #+#              #
-#    Updated: 2024/11/15 21:00:31 by aelaaser         ###   ########.fr        #
+#    Updated: 2024/11/26 20:22:34 by aelaaser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Library name
-NAME = pipex.a
+NAME = pipex
 
 # Compiler and flags
 CC = gcc
