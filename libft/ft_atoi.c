@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 21:27:59 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/10/16 18:22:50 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/26 19:22:31 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_atoi(const char *str)
 		i++;
 	while (str[i] != '\0' && str[i] >= '0' && str[i] <= '9')
 	{
-		if (nbr > 214748364 || (nbr == 214748364 && (str[i + 1] - '0') > 7))
+		if (nbr > 214748364 || (nbr == 214748364 && (str[i] - '0') > 7))
 			return (ft_return_max(flag));
 		nbr = (nbr * 10) + (str[i] - '0');
 		i++;
