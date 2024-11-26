@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:15:54 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/15 21:03:02 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/26 20:24:28 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@
 # include <unistd.h>
 # include "libft/libft.h"
 
-int	exit_f(int	error);
+int	exit_f(int error);
 
 #endif
