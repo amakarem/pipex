@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 19:21:46 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:31:01 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	exec(char *argv, char **env)
 {
 	char	**cmd;
-	int 	i;
+	int		i;
 	char	*path;
-	
+
 	i = -1;
 	cmd = ft_split(argv, ' ');
 	path = find_path(cmd[0], env);
-	if (!path)	
+	if (!path)
 	{
 		while (cmd[++i])
 			free(cmd[i]);
@@ -41,7 +41,8 @@ int	open_file(char *filename, int output)
 	else if (output == 1)
 	{
 		fd = open(filename, O_RDONLY, 0777);
-		if (fd > 0) {
+		if (fd > 0)
+		{
 			close(fd);
 			unlink(filename);
 		}
@@ -69,13 +70,12 @@ void	parent(char **argv, int *pipefd, char **env)
 
 	fd = open_file(argv[4], 1);
 	if (fd == -1)
-		error() ;
+		error();
 	dup2(fd, STDOUT_FILENO);
 	dup2(pipefd[0], 0);
 	close(pipefd[1]);
 	exec(argv[3], env);
 }
-
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -93,6 +93,5 @@ int	main(int argc, char **argv, char **envp)
 		child(argv, pipefd, envp);
 	waitpid(pid, NULL, 0);
 	parent(argv, pipefd, envp);
-
-    return (0);
+	return (0);
 }
