@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 19:31:01 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:56:45 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	pid;
 
 	if (argc != 5)
-		return (exit_f(1));
+		exit_f();
 	if (pipe(pipefd) == -1)
 		error();
 	pid = fork();

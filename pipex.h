@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:15:54 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 19:31:12 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:54:08 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include "libft/libft.h"
 
-int		exit_f(int error);
+void	exit_f(void);
 void	error(void);
 char	*find_path(char *cmd, char **envp);
 #endif

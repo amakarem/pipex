@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:19:56 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 19:08:21 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/28 20:02:56 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 void	error(void)
 {
-	perror("\033[31mError");
+	perror("Error");
 	exit(EXIT_FAILURE);
 }
 
-int	exit_f(int error)
+void	exit_f(void)
 {
-	if (error == 1)
-		ft_putstr_fd("./pipex infile cmd cmd outfile\n", 2);
-	return (0);
+	perror("Ex: ./pipex <file1> <cmd1> <cmd2> <file2>");
+	exit(1);
 }
 
 char	*find_path(char *cmd, char **envp)
