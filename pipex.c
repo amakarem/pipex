@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 22:54:58 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/28 23:41:30 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,11 @@ void	parent(char **argv, int *pipefd, char **env)
 
 	fd = open_file(argv[4], 1);
 	if (fd == -1)
-		error_exit("Failed to open output file");
+	{
+		write(STDERR_FILENO, "Error: \"", 8);
+		write(STDERR_FILENO, argv[4], ft_strlen(argv[4]));
+		error_exit("\" Failed to open output file");
+	}
 	dup2(fd, STDOUT_FILENO);
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[1]);
@@ -89,15 +93,15 @@ void	parent(char **argv, int *pipefd, char **env)
 int	main(int argc, char **argv, char **envp)
 {
 	int		pipefd[2];
-	int		status;
 	pid_t	pid;
-	pid_t	child_pid;
 
 	if (argc != 5)
 	{
 		errno = EINVAL;
 		error_exit("\nUsage: ./pipex <file1> <cmd1> <cmd2> <file2>");
 	}
+	if (!envp)
+		error_exit("\nError: No environment variables found.");
 	if (pipe(pipefd) == -1)
 		error_exit("Pipe failed");
 	pid = fork();
@@ -105,9 +109,7 @@ int	main(int argc, char **argv, char **envp)
 		error_exit("Fork failed");
 	if (!pid)
 		child(argv, pipefd, envp);
-	child_pid = waitpid(pid, &status, 0);
-	if (status > 0)
-		exit (1);
+	waitpid(pid, NULL, 0);
 	parent(argv, pipefd, envp);
 	return (0);
 }

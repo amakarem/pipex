@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:19:56 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 22:49:05 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/28 23:34:36 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ void	error_exit(const char *msg)
 {
 	if (ft_strlen(msg) == 0)
 		msg = strerror(errno);
-	if (ft_strlen(msg) >= 3)
-		write(STDERR_FILENO, msg, ft_strlen(msg));
+	write(STDERR_FILENO, msg, ft_strlen(msg));
 	write(STDERR_FILENO, "\n", 1);
-	exit(errno);
+	exit(127);
 }
 
 void	free_arr(char **str)
