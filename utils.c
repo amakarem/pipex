@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:19:56 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 23:34:36 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/28 23:53:28 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char	*find_path(char *cmd, char **envp)
 	int		i;
 	char	*part_path;
 
+	if (access(cmd, F_OK) == 0)
+		return (cmd);
 	i = 0;
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
@@ -62,9 +64,6 @@ char	*find_path(char *cmd, char **envp)
 		free(path);
 		i++;
 	}
-	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
+	free_arr(paths);
 	return (0);
 }
