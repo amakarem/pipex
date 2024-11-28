@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 19:56:45 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/28 20:32:38 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,16 @@
 void	exec(char *argv, char **env)
 {
 	char	**cmd;
-	int		i;
 	char	*path;
 
-	i = -1;
 	cmd = ft_split(argv, ' ');
+	if (!cmd)
+		error_exit("ft_split failed");
 	path = find_path(cmd[0], env);
 	if (!path)
-	{
-		while (cmd[++i])
-			free(cmd[i]);
-		free(cmd);
-		error();
-	}
+		free_exit_error(cmd);
 	if (execve(path, cmd, env) == -1)
-		error();
+		free_exit_error(cmd);
 }
 
 int	open_file(char *filename, int output)
@@ -57,7 +52,7 @@ void	child(char **argv, int *pipefd, char **env)
 
 	fd = open_file(argv[1], 0);
 	if (fd == -1)
-		error();
+		error_exit("Failed to open input file");
 	dup2(fd, 0);
 	dup2(pipefd[1], 1);
 	close(pipefd[0]);
@@ -70,8 +65,8 @@ void	parent(char **argv, int *pipefd, char **env)
 
 	fd = open_file(argv[4], 1);
 	if (fd == -1)
-		error();
-	dup2(fd, STDOUT_FILENO);
+		error_exit("Failed to open output file");
+	dup2(fd, 1);
 	dup2(pipefd[0], 0);
 	close(pipefd[1]);
 	exec(argv[3], env);
@@ -83,12 +78,12 @@ int	main(int argc, char **argv, char **envp)
 	pid_t	pid;
 
 	if (argc != 5)
-		exit_f();
+		error_exit("Usage: ./pipex <file1> <cmd1> <cmd2> <file2>");
 	if (pipe(pipefd) == -1)
-		error();
+		error_exit("Pipe failed");
 	pid = fork();
 	if (pid == -1)
-		error();
+		error_exit("Fork failed");
 	if (!pid)
 		child(argv, pipefd, envp);
 	waitpid(pid, NULL, 0);

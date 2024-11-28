@@ -6,22 +6,30 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:19:56 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 20:02:56 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/28 20:25:59 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	error(void)
+void	error_exit(const char *msg)
 {
-	perror("Error");
-	exit(EXIT_FAILURE);
+	perror(msg);
+	exit(1);
 }
 
-void	exit_f(void)
+void	free_exit_error(char **cmd)
 {
-	perror("Ex: ./pipex <file1> <cmd1> <cmd2> <file2>");
-	exit(1);
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		free(cmd[i]);
+		i++;
+	}
+	free(cmd);
+	error_exit("Exec failed");
 }
 
 char	*find_path(char *cmd, char **envp)
