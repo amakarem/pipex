@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 19:12:49 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:21:46 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,19 @@ void	exec(char *argv, char **env)
 
 int	open_file(char *filename, int output)
 {
+	int	fd;
+
 	if (output == 0)
 		return (open(filename, O_RDONLY, 0777));
 	else if (output == 1)
+	{
+		fd = open(filename, O_RDONLY, 0777);
+		if (fd > 0) {
+			close(fd);
+			unlink(filename);
+		}
 		return (open(filename, O_WRONLY | O_CREAT, 0644));
+	}
 	return (-1);
 }
 
