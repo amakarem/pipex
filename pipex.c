@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 18:18:25 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/28 19:12:49 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	child(char **argv, int *pipefd, char **env)
 {
 	int		fd;
 
-	fd = open_file(argv[2], 0);
+	fd = open_file(argv[1], 0);
 	if (fd == -1)
 		error();
 	dup2(fd, 0);
