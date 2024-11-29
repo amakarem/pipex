@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/29 22:57:25 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/29 22:59:53 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	exec(char *argv, char **env)
 		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
 		free_exit_error(cmd, "\" command not found");
 	}
-	//cmd = cmd_args(cmd, argv);
 	if (execve(path, cmd, env) == -1)
 	{
 		write(STDERR_FILENO, "Error: \"", 8);
