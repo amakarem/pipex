@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/28 23:57:58 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/29 22:57:25 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	exec(char *argv, char **env)
 		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
 		free_exit_error(cmd, "\" command not found");
 	}
+	//cmd = cmd_args(cmd, argv);
 	if (execve(path, cmd, env) == -1)
 	{
 		write(STDERR_FILENO, "Error: \"", 8);
@@ -69,8 +70,10 @@ void	child(char **argv, int *pipefd, char **env)
 		error_exit("\" Failed to open input file");
 	}
 	dup2(fd, STDIN_FILENO);
+	close(fd);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[0]);
+	close(pipefd[1]);
 	exec(argv[2], env);
 }
 
@@ -85,9 +88,11 @@ void	parent(char **argv, int *pipefd, char **env)
 		write(STDERR_FILENO, argv[4], ft_strlen(argv[4]));
 		error_exit("\" Failed to open output file");
 	}
-	dup2(fd, STDOUT_FILENO);
 	dup2(pipefd[0], STDIN_FILENO);
+	close(pipefd[0]);
 	close(pipefd[1]);
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
 	exec(argv[3], env);
 }
 
@@ -108,7 +113,7 @@ int	main(int argc, char **argv, char **envp)
 	pid = fork();
 	if (pid == -1)
 		error_exit("Fork failed");
-	if (!pid)
+	if (pid == 0)
 		child(argv, pipefd, envp);
 	waitpid(pid, NULL, 0);
 	parent(argv, pipefd, envp);
