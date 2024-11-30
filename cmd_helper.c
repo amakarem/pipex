@@ -6,20 +6,20 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:11:27 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/30 20:12:58 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/30 20:21:32 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	**optmize_cmd(char **cmd)
+char	**optmize_cmd(char **cmd, char *argv)
 {
 	int	size;
 	int	x;
 
 	size = ft_arr_size(cmd);
 	x = 2;
-	if (size > 2)
+	if (size > 2 && (ft_strchr(argv, 39) || ft_strchr(argv, '"')))
 	{
 		while (size > 2)
 		{

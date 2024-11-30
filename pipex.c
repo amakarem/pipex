@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/30 20:08:33 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/30 20:28:49 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@ void	exec(char *argv, char **env)
 	cmd = ft_split(argv, ' ');
 	if (!cmd)
 		error_exit("ft_split failed");
-	cmd = optmize_cmd(cmd);
+	cmd = optmize_cmd(cmd, argv);
 	path = find_path(cmd[0], env);
 	if (!path)
 	{
-		write(STDERR_FILENO, "Error: \"", 8);
+		write(STDERR_FILENO, "pipex: ", 7);
 		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
-		free_exit_error(cmd, "\" command not found");
+		free_exit_error(cmd, ": command not found");
 	}
 	if (execve(path, cmd, env) == -1)
 	{
-		write(STDERR_FILENO, "Error: \"", 8);
+		write(STDERR_FILENO, "pipex: ", 7);
 		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
 		free(path);
-		free_exit_error(cmd, "\" Exec failed");
+		free_exit_error(cmd, ": Exec failed");
 	}
 	free_arr(cmd);
 	free(path);
@@ -65,9 +65,8 @@ void	child(char **argv, int *pipefd, char **env)
 	fd = open_file(argv[1], 0);
 	if (fd == -1)
 	{
-		write(STDERR_FILENO, "Error: \"", 8);
-		write(STDERR_FILENO, argv[1], ft_strlen(argv[1]));
-		error_exit("\" Failed to open input file");
+		write(STDERR_FILENO, "pipex: input: ", 14);
+		error_exit("");
 	}
 	dup2(fd, STDIN_FILENO);
 	close(fd);
@@ -84,9 +83,8 @@ void	parent(char **argv, int *pipefd, char **env)
 	fd = open_file(argv[4], 1);
 	if (fd == -1)
 	{
-		write(STDERR_FILENO, "Error: \"", 8);
-		write(STDERR_FILENO, argv[4], ft_strlen(argv[4]));
-		error_exit("\" Failed to open output file");
+		write(STDERR_FILENO, "pipex: output: ", 14);
+		error_exit("");
 	}
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
