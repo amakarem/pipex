@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/30 20:28:49 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/30 21:55:39 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,9 @@ int	main(int argc, char **argv, char **envp)
 		error_exit("Fork failed");
 	if (pid == 0)
 		child(argv, pipefd, envp);
-	waitpid(pid, NULL, 0);
 	parent(argv, pipefd, envp);
+	waitpid(pid, NULL, 0);
+	close(pipefd[0]);
+	close(pipefd[1]);
 	return (0);
 }
