@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/29 22:59:53 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/30 20:08:33 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	exec(char *argv, char **env)
 	cmd = ft_split(argv, ' ');
 	if (!cmd)
 		error_exit("ft_split failed");
+	cmd = optmize_cmd(cmd);
 	path = find_path(cmd[0], env);
 	if (!path)
 	{

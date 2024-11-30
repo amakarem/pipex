@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:19:56 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/29 22:59:43 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/11/30 20:12:02 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ void	error_exit(const char *msg)
 	exit(127);
 }
 
+int	ft_arr_size(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
+}
+
 void	free_arr(char **str)
 {
 	int	i;
@@ -29,6 +39,7 @@ void	free_arr(char **str)
 	while (str[i])
 	{
 		free(str[i]);
+		str[i] = NULL;
 		i++;
 	}
 	free(str);
@@ -38,32 +49,4 @@ void	free_exit_error(char **cmd, char *msg)
 {
 	free_arr(cmd);
 	error_exit(msg);
-}
-
-char	*find_path(char *cmd, char **envp)
-{
-	char	**paths;
-	char	*path;
-	int		i;
-	char	*part_path;
-
-	if (access(cmd, F_OK) == 0)
-		return (cmd);
-	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	paths = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (paths[i])
-	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-	}
-	free_arr(paths);
-	return (0);
 }

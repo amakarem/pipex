@@ -6,7 +6,7 @@
 #    By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/17 23:01:14 by aelaaser          #+#    #+#              #
-#    Updated: 2024/11/26 20:22:34 by aelaaser         ###   ########.fr        #
+#    Updated: 2024/11/30 20:12:41 by aelaaser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra
 
 # Source files
-SRCS = 	pipex.c utils.c
+SRCS = 	pipex.c utils.c cmd_helper.c
 
 OBJS = $(SRCS:.c=.o)
 
