@@ -6,11 +6,39 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:11:27 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/11/30 20:21:32 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/12/02 15:07:14 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+char	*quotation_fix(char *str)
+{
+	int	size;
+	int	x;
+
+	size = ft_strlen(str);
+	if (size > 2)
+	{
+		if (str[0] == 39 && str[1] == '"')
+		{
+			str = ft_strtrim(str, "\"'");
+			return (ft_strjoin("\"", ft_strjoin(str, "\"")));
+		}
+		if (str[0] == '"' && str[1] == 39)
+			return (ft_strtrim(str, "\""));
+		x = 0;
+		while (str[x])
+		{
+			if (str[x] == 39 || str[x] == '"')
+			{
+				str[x] = ' ';
+			}
+			x++;
+		}
+	}
+	return (str);
+}
 
 char	**optmize_cmd(char **cmd, char *argv)
 {
@@ -30,13 +58,7 @@ char	**optmize_cmd(char **cmd, char *argv)
 			x++;
 			size--;
 		}
-		x = 0;
-		while (cmd[1][x])
-		{
-			if (cmd[1][x] == 39)
-				cmd[1][x] = ' ';
-			x++;
-		}
+		cmd[1] = quotation_fix(cmd[1]);
 	}
 	return (cmd);
 }
