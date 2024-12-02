@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:11:27 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/12/02 15:07:14 by aelaaser         ###   ########.fr       */
+/*   Updated: 2024/12/02 17:50:01 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*find_path(char *cmd, char **envp)
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
 		if (access(path, F_OK) == 0)
-			return (path);
+			return (free_arr(paths), path);
 		free(path);
 		i++;
 	}
