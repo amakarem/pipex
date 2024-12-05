@@ -1,39 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_supstr.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/12 00:07:44 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/10/12 00:49:29 by aelaaser         ###   ########.fr       */
+/*   Created: 2024/10/16 22:52:57 by aelaaser          #+#    #+#             */
+/*   Updated: 2024/10/17 18:33:03 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	char	*sub;
-	size_t	i;
-	size_t	strlen;
+	t_list	*new;
+	t_list	*obj;
+	void	*ptr;
 
-	if (s == NULL)
+	if (!lst || !f || !del)
 		return (NULL);
-	strlen = ft_strlen(s);
-	if (len > (strlen - start))
-		len = strlen - start;
-	if (start >= strlen)
-		len = 0;
-	sub = malloc(sizeof(char) * (len + 1));
-	if (sub == NULL)
-		return (NULL);
-	i = 0;
-	while (i < len && s[start + i] != '\0')
+	new = NULL;
+	while (lst)
 	{
-		sub[i] = s[start + i];
-		i++;
+		ptr = f(lst->content);
+		obj = ft_lstnew(ptr);
+		if (obj == NULL)
+		{
+			del(ptr);
+			ft_lstclear(&new, del);
+			return (NULL);
+		}
+		ft_lstadd_back(&new, obj);
+		lst = lst->next;
 	}
-	sub[i] = '\0';
-	return (sub);
+	return (new);
 }

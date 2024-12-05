@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 22:52:57 by aelaaser          #+#    #+#             */
-/*   Updated: 2024/10/16 23:46:19 by aelaaser         ###   ########.fr       */
+/*   Created: 2024/10/12 00:07:44 by aelaaser          #+#    #+#             */
+/*   Updated: 2024/12/05 18:40:15 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	t_list	*new;
-	t_list	*obj;
+	char	*sub;
+	size_t	i;
+	size_t	strlen;
 
-	if (!lst || !f || !del)
+	if (s == NULL)
 		return (NULL);
-	new = NULL;
-	while (lst)
+	strlen = ft_strlen(s);
+	if (len > (strlen - start))
+		len = strlen - start;
+	if (start >= strlen)
+		len = 0;
+	sub = malloc(sizeof(char) * (len + 1));
+	if (sub == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len && s[start + i] != '\0')
 	{
-		obj = ft_lstnew(f(lst->content));
-		if (obj == NULL)
-		{
-			ft_lstclear(&new, del);
-			return (NULL);
-		}
-		ft_lstadd_back(&new, obj);
-		lst = lst->next;
+		sub[i] = s[start + i];
+		i++;
 	}
-	return (new);
+	sub[i] = '\0';
+	return (sub);
 }
